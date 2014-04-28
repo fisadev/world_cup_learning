@@ -12,6 +12,7 @@ TEAM_RENAMES_FILE = 'team_renames.csv'
 
 
 def apply_renames(column):
+    """Apply team renames to a team column from a dataframe."""
     with open(TEAM_RENAMES_FILE) as renames_file:
         renames = dict(l.strip().split(',')
                        for l in renames_file.readlines()
@@ -24,6 +25,7 @@ def apply_renames(column):
 
 
 def get_matches():
+    """Create a dataframe with matches info."""
     matches = pd.DataFrame.from_csv(RAW_MATCHES_FILE)
     for column in ('team1', 'team2'):
         matches[column] = apply_renames(matches[column])
@@ -32,6 +34,7 @@ def get_matches():
 
 
 def get_winners():
+    """Create a dataframe with podium positions info."""
     winners = pd.DataFrame.from_csv(RAW_WINNERS_FILE)
     winners.team = apply_renames(winners.team)
 
@@ -39,6 +42,7 @@ def get_winners():
 
 
 def get_team_stats():
+    """Create a dataframe with useful stats for each team."""
     winners = get_winners()
     matches = get_matches()
 
