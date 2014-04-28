@@ -80,7 +80,7 @@ def get_team_stats():
         stats.loc[team, 'years_played'] = len(their_matches.year.unique())
 
         their_podiums = winners[winners.team == team]
-        to_score = lambda position: 5 - position  # better position = more score
+        to_score = lambda position: 5 - position  # better position -> more score
         stats.loc[team, 'podium_score'] = their_podiums.position.map(to_score).sum()
 
         stats.loc[team, 'cups_won'] = len(their_podiums[their_podiums.position == 1])
