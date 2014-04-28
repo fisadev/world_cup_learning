@@ -49,17 +49,6 @@ def get_team_stats():
     teams = set(matches.team1.unique()).union(matches.team2.unique())
 
     stats = pd.DataFrame(list(teams), columns=['team'])
-    stats['matches_played'] = 0
-    stats['matches_won'] = 0
-    stats['matches_won_percent'] = 0
-
-    stats['years_played'] = 0
-
-    stats['podium_score'] = 0
-    stats['podium_score_yearly'] = 0
-
-    stats['cups_won'] = 0
-    stats['cups_won_yearly'] = 0
 
     stats = stats.set_index('team')
 
