@@ -64,26 +64,26 @@ def get_team_stats():
     stats = stats.set_index('team')
 
     for team in teams:
-        their_matches = matches[(matches.team1 == team) |
-                                (matches.team2 == team)]
-        stats.loc[team, 'matches_played'] = len(their_matches)
+        team_matches = matches[(matches.team1 == team) |
+                               (matches.team2 == team)]
+        stats.loc[team, 'matches_played'] = len(team_matches)
 
         # wins where the team was on the left side (team1)
-        wins1 = their_matches[(their_matches.team1 == team) &
-                              (their_matches.score1 > their_matches.score2)]
+        wins1 = team_matches[(team_matches.team1 == team) &
+                             (team_matches.score1 > team_matches.score2)]
         # wins where the team was on the right side (team2)
-        wins2 = their_matches[(their_matches.team2 == team) &
-                              (their_matches.score2 > their_matches.score1)]
+        wins2 = team_matches[(team_matches.team2 == team) &
+                             (team_matches.score2 > team_matches.score1)]
 
         stats.loc[team, 'matches_won'] = len(wins1) + len(wins2)
 
-        stats.loc[team, 'years_played'] = len(their_matches.year.unique())
+        stats.loc[team, 'years_played'] = len(team_matches.year.unique())
 
-        their_podiums = winners[winners.team == team]
+        team_podiums = winners[winners.team == team]
         to_score = lambda position: 5 - position  # better position -> more score
-        stats.loc[team, 'podium_score'] = their_podiums.position.map(to_score).sum()
+        stats.loc[team, 'podium_score'] = team_podiums.position.map(to_score).sum()
 
-        stats.loc[team, 'cups_won'] = len(their_podiums[their_podiums.position == 1])
+        stats.loc[team, 'cups_won'] = len(team_podiums[team_podiums.position == 1])
 
     stats['matches_won_percent'] = stats['matches_won'] / stats['matches_played'] * 100.0
     stats['podium_score_yearly'] = stats['podium_score'] / stats['years_played']
