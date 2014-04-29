@@ -1,7 +1,7 @@
 # coding: utf-8
 """
-Functions that return the data in the files, sometimes raw, others with some
-cleaning or summarization.
+Functions that return the data in the files, sometimes raw, with some cleaning
+and/or summarization.
 """
 import pandas as pd
 
