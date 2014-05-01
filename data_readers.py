@@ -30,6 +30,18 @@ def get_matches():
     for column in ('team1', 'team2'):
         matches[column] = apply_renames(matches[column])
 
+    def winner_from_score_diff(x):
+        if x > 0:
+            return 1
+        elif x < 0:
+            return 2
+        else:
+            return 0
+
+    matches['score_diff'] = matches['score1'] - matches['score2']
+    matches['winner'] = matches['score_diff']
+    matches['winner'].apply(winner_from_score_diff)
+
     return matches
 
 
