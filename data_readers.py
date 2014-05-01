@@ -40,7 +40,7 @@ def get_matches():
 
     matches['score_diff'] = matches['score1'] - matches['score2']
     matches['winner'] = matches['score_diff']
-    matches['winner'].apply(winner_from_score_diff)
+    matches['winner'] = matches['winner'].map(winner_from_score_diff)
 
     return matches
 
