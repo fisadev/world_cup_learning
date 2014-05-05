@@ -1,56 +1,7 @@
 # coding: utf-8
-from data_readers import get_matches, get_team_stats
+from data_readers import get_matches, separate_samples, normalize
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import StandardScaler
 from random import random
-import pygal
-
-
-def get_samples(origin_features=None, result_feature='winner'):
-    if not origin_features:
-        origin_features = (
-            'matches_won_percent',
-            'cups_won_yearly',
-            'podium_score_yearly',
-            'matches_won_percent_2',
-            'cups_won_yearly_2',
-            'podium_score_yearly_2',
-        )
-
-    matches = get_matches(duplicate_with_reversed=True)
-    stats = get_team_stats()
-
-    # add teams stats to the matches
-    matches = matches.join(stats, on='team1')\
-                     .join(stats, on='team2', rsuffix='_2')
-
-    inputs = [tuple(matches.loc[i, feature]
-                    for feature in origin_features)
-              for i in matches.index]
-
-    outputs = tuple(matches[result_feature].values)
-
-    assert len(inputs) == len(outputs)
-
-    return inputs, outputs
-
-
-def graph_samples(inputs, outputs, feature_x_index, feature_y_index, graph_path='samples.svg'):
-    groups = {}
-    for i, inputs_row in enumerate(inputs):
-        output = outputs[i]
-        if output not in groups:
-            groups[output] = []
-        groups[output].append((inputs_row[feature_x_index], inputs_row[feature_y_index]))
-
-    chart = pygal.XY(stroke=False,
-                     title='Samples',
-                     style=pygal.style.CleanStyle)
-
-    for group_name, points in groups.items():
-        chart.add(str(group_name), points)
-
-    chart.render_to_file(graph_path)
 
 
 def train(train_inputs, train_outputs, test_inputs, test_outputs,
@@ -63,20 +14,28 @@ def train(train_inputs, train_outputs, test_inputs, test_outputs,
     return classifier, score
 
 
-def normalize(inputs):
-    scaler = StandardScaler()
-    new_inputs = scaler.fit_transform(inputs)
+def full_train(input_features=None, output_feature='winner'):
+    if input_features is None:
+        input_features = ['matches_won_percent',
+                          'podium_score_yearly',
+                          'matches_won_percent_2',
+                          'podium_score_yearly_2']
 
-    return new_inputs
+    matches = get_matches(with_team_stats=True,
+                          duplicate_with_reversed=True)
 
+    inputs, outputs = separate_samples(matches,
+                                       input_features,
+                                       output_feature)
 
-def full_train():
-    inputs, outputs = get_samples()
     inputs = normalize(inputs)
 
     train_inputs, train_outputs, test_inputs, test_outputs = split_samples(inputs, outputs)
 
-    predictor, score = train(train_inputs, train_outputs, test_inputs, test_outputs)
+    predictor, score = train(train_inputs,
+                             train_outputs,
+                             test_inputs,
+                             test_outputs)
 
     return predictor, score
 
