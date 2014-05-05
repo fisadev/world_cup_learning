@@ -24,11 +24,24 @@ def apply_renames(column):
     return column.map(renamer)
 
 
-def get_matches():
+def get_matches(duplicate_with_reversed=False):
     """Create a dataframe with matches info."""
     matches = pd.DataFrame.from_csv(RAW_MATCHES_FILE)
     for column in ('team1', 'team2'):
         matches[column] = apply_renames(matches[column])
+
+    if duplicate_with_reversed:
+        id_offset = len(matches)
+
+        matches2 = matches.copy()
+        matches2.rename(columns={'team1': 'team2',
+                                 'team2': 'team1',
+                                 'score1': 'score2',
+                                 'score2': 'score1'},
+                        inplace=True)
+        matches2.index = matches2.index.map(lambda x: x + id_offset)
+
+        matches = pd.concat((matches, matches2))
 
     def winner_from_score_diff(x):
         if x > 0:
