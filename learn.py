@@ -14,7 +14,7 @@ def train(train_inputs, train_outputs, test_inputs, test_outputs,
     return classifier, score
 
 
-def full_train(input_features=None, output_feature='winner'):
+def full_train(input_features=None, output_feature='winner', remove_ties=False):
     if input_features is None:
         input_features = ['matches_won_percent',
                           'podium_score_yearly',
@@ -23,6 +23,9 @@ def full_train(input_features=None, output_feature='winner'):
 
     matches = get_matches(with_team_stats=True,
                           duplicate_with_reversed=True)
+
+    if remove_ties:
+        matches = matches[matches['score1'] != matches['score2']]
 
     inputs, outputs = separate_samples(matches,
                                        input_features,
