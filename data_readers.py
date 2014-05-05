@@ -21,7 +21,7 @@ def apply_renames(column):
         def renamer(team):
             return renames.get(team, team)
 
-    return column.apply(renamer)
+    return column.map(renamer)
 
 
 def get_matches():
