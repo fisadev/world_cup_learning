@@ -3,7 +3,6 @@ from data_readers import get_matches, get_team_stats
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 from random import random
-from matplotlib import pyplot
 import pygal
 
 
