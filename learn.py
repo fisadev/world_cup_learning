@@ -41,25 +41,3 @@ def full_train(input_features=None, output_feature='winner', remove_ties=False):
                              test_outputs)
 
     return predictor, score
-
-
-def split_samples(inputs, outputs, percent=0.75):
-    assert len(inputs) == len(outputs)
-
-    inputs1 = []
-    inputs2 = []
-    outputs1 = []
-    outputs2 = []
-
-    for i, inputs_row in enumerate(inputs):
-        if random() < percent:
-            input_to = inputs1
-            output_to = outputs1
-        else:
-            input_to = inputs2
-            output_to = outputs2
-
-        input_to.append(inputs_row)
-        output_to.append(outputs[i])
-
-    return inputs1, outputs1, inputs2, outputs2
