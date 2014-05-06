@@ -153,7 +153,7 @@ def normalize(array):
     scaler = StandardScaler()
     array = scaler.fit_transform(array)
 
-    return array
+    return scaler, array
 
 
 def split_samples(inputs, outputs, percent=0.75):
