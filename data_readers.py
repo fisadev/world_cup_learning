@@ -115,7 +115,7 @@ def get_team_stats():
     return stats
 
 
-def separate_samples(matches, origin_features, result_feature):
+def extract_samples(matches, origin_features, result_feature):
     inputs = [tuple(matches.loc[i, feature]
                     for feature in origin_features)
               for i in matches.index]
