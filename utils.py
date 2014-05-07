@@ -176,3 +176,33 @@ def split_samples(inputs, outputs, percent=0.75):
         output_to.append(outputs[i])
 
     return inputs1, outputs1, inputs2, outputs2
+
+
+def graph_matches_results_scatter(matches, feature_x, feature_y):
+    wins1 = matches[matches.score1 > matches.score2]
+    wins2 = matches[matches.score1 < matches.score2]
+    ties = matches[matches.score1 == matches.score2]
+
+    graph = pygal.XY(stroke=False,
+                     title='Results dispersion by %s, %s' % (feature_x, feature_y),
+                     x_title=feature_x,
+                     y_title=feature_y,
+                     print_values=False)
+    graph.add('wins 1', zip(wins1[feature_x], wins1[feature_y]))
+    graph.add('wins 2', zip(wins2[feature_x], wins2[feature_y]))
+    graph.add('ties', zip(ties[feature_x], ties[feature_y]))
+
+    return graph
+
+
+def graph_teams_stat_bars(team_stats, stat):
+    sorted_team_stats = team_stats.sort(stat)
+    graph = pygal.Bar(show_legend=False,
+                      title='Teams by ' + stat,
+                      x_title='team',
+                      y_title=stat,
+                      print_values=False)
+    graph.x_labels = list(sorted_team_stats.index)
+    graph.add(stat, sorted_team_stats[stat])
+
+    return graph
