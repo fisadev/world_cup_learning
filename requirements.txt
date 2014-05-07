@@ -1,1 +1,6 @@
 pandas
+# is this ok? (I have it installed via the ubuntu repos)
+scikit-learn
+pygal
+# does this installs everything needed for ipython notebook?:
+ipython
