@@ -27,7 +27,8 @@ def apply_renames(column):
     return column.map(renamer)
 
 
-def get_matches(with_team_stats=False, duplicate_with_reversed=False):
+def get_matches(with_team_stats=False, duplicate_with_reversed=False,
+                exclude_ties=False):
     """Create a dataframe with matches info."""
     matches = pd.DataFrame.from_csv(RAW_MATCHES_FILE)
     for column in ('team1', 'team2'):
@@ -57,6 +58,9 @@ def get_matches(with_team_stats=False, duplicate_with_reversed=False):
     matches['score_diff'] = matches['score1'] - matches['score2']
     matches['winner'] = matches['score_diff']
     matches['winner'] = matches['winner'].map(winner_from_score_diff)
+
+    if exclude_ties:
+        matches = matches[matches['winner'] != 0]
 
     if with_team_stats:
         stats = get_team_stats()
