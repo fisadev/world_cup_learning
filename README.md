@@ -7,3 +7,5 @@ Still working on it, should be ready before the 2014 cup starts playing (I will 
 
 And I have very little idea about football, so if you know more about the topic and have some suggestions, you are welcome to write me!
 (my gmail user is the same than github)
+
+You can see the main code and results (including some neat graphs) here: http://nbviewer.ipython.org/github/fisadev/world_cup_learning/blob/master/learn.ipynb
