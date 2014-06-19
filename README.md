@@ -10,7 +10,7 @@ And I have very little idea about football, so if you know more about the topic 
 
 You can see the main code and results (including some neat graphs) here: http://nbviewer.ipython.org/github/fisadev/world_cup_learning/blob/master/learn.ipynb
 
-To run this on your machine, you will need to install the requirements in the ``requirements.txt`` file using pip (inside a virtualenv if you can, as usual, to avoid sudo), but also this packages not via pip, but apt or the tool you use in your system for compiled packages:
+To run this on your machine, you will need to install the requirements in the ``requirements.txt`` file using pip (inside a virtualenv if you can, as usual, to avoid sudo), but also these extra packages not via pip, but apt or the tool you use in your system for compiled packages:
 
 * numpy
 * scipy
