@@ -1,6 +1,4 @@
 pandas
 pygal
 pybrain
-
-# does this installs everything needed for ipython notebook?:
-ipython
+ipython[all]
