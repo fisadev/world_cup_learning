@@ -2,8 +2,5 @@ pandas
 pygal
 pybrain
 
-# is this ok? (I have it installed via the ubuntu repos)
-scikit-learn
-
 # does this installs everything needed for ipython notebook?:
 ipython
